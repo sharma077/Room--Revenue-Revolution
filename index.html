@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Room Revenue Revolution</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .page {
+      display: none;
+      min-height: 100vh;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+    #loginPage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    input, select {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+      width: 250px;
+    }
+    .input-container {
+      position: relative;
+    }
+    .eye-icon {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 20px;
+      color: #fff;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      background-color: #00d4ff;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    h2 {
+      margin-top: 10px;
+      font-size: 26px;
+    }
+    .home-layout {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .left-col, .right-col {
+      flex: 1 1 45%;
+      padding: 20px;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+    .dashboard-btn {
+      padding: 12px 28px;
+      font-size: 20px;
+      background-color: #28a745;
+    }
+    ul { list-style: none; padding: 0; }
+    .rating {
+      margin-top: 30px;
+    }
+    .stars {
+      display: inline-block;
+    }
+    .stars input { display: none; }
+    .stars label {
+      float: right;
+      padding: 10px;
+      font-size: 30px;
+      color: #444;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .stars input:checked ~ label,
+    .stars input:hover ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: gold;
+    }
+    #ratingMessage {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #00ffcc;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      display: block;
+    }
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 16px;
+      font-size: 16px;
+      background-color: #ff6600;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    /* Modal for More Details */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      width: 80%;
+      text-align: center;
+    }
+    .modal-content h3 {
+      font-size: 24px;
+    }
+    .modal-content ul {
+      text-align: left;
+      margin-top: 20px;
+    }
+    .modal-content button {
+      background-color: #ff6600;
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      .home-layout {
+        flex-direction: column;
+      }
+      .left-col, .right-col {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Login Page -->
+<div class="page" id="loginPage" style="display: flex;">
+  <h1>Room Revenue Revolution</h1>
+  <div class="input-container">
+    <input type="text" id="username" placeholder="Enter your username" />
+    <i class="eye-icon" id="usernameEye" onclick="toggleVisibility('username')">👁</i>
+  </div>
+  <div class="input-container">
+    <input type="password" id="password" placeholder="Enter your password" />
+    <i class="eye-icon" id="passwordEye" onclick="toggleVisibility('password')">👁</i>
+  </div>
+  <div class="input-container">
+    <input type="email" id="email" placeholder="Enter your email ID" />
+    <i class="eye-icon" id="emailEye" onclick="toggleVisibility('email')">👁</i>
+  </div>
+  <button onclick="showHomePage()">Let's Join Us</button>
+</div>
+
+<!-- Home Page -->
+<div class="page" id="homePage">
+  <div class="top-bar">
+    <button class="dashboard-btn" onclick="showDashboard()">View Dashboard</button>
+  </div>
+  <div class="home-layout">
+    <!-- Left Column -->
+    <div class="left-col">
+      <h2 id="greetingTitle">Welcome!</h2>
+
+      <h3>About Us</h3>
+      <p>We provide smart room revenue analysis using IBM Cognos Analytics to maximize your hotel’s performance.</p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>📊 Profit Margin Analysis</li>
+        <li>📅 Dynamic Date Filters</li>
+        <li>🌐 Interactive Dashboards</li>
+        <li>🏨 Hotel Revenue Trends</li>
+      </ul>
+
+      <div class="rating">
+        <h3>Rate Room Revenue Revolution</h3>
+        <div class="stars">
+          <input type="radio" id="star5" name="rating" value="5" onclick="showMessage(5)"><label for="star5">★</label>
+          <input type="radio" id="star4" name="rating" value="4" onclick="showMessage(4)"><label for="star4">★</label>
+          <input type="radio" id="star3" name="rating" value="3" onclick="showMessage(3)"><label for="star3">★</label>
+          <input type="radio" id="star2" name="rating" value="2" onclick="showMessage(2)"><label for="star2">★</label>
+          <input type="radio" id="star1" name="rating" value="1" onclick="showMessage(1)"><label for="star1">★</label>
+        </div>
+        <div id="ratingMessage"></div>
+      </div>
+
+      <button onclick="showMoreDetails()">More Details</button>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-col">
+      <h3>Check-in Date</h3>
+      <input type="date" />
+
+      <h3>Check-out Date</h3>
+      <input type="date" />
+
+      <h3>Hotel Calendar</h3>
+      <iframe src="https://calendar.google.com/calendar/embed?src=en.indian%23holiday%40group.v.calendar.google.com&ctz=Asia%2FCalcutta" style="border: 0" width="100%" height="200" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard Page -->
+<div class="page" id="dashboardPage">
+  <button class="back-btn" onclick="backToHome()">← Back</button>
+  <iframe id="dashboardIframe" src="https://us1.ca.analytics.ibm.com/bi/?perspective=dashboard&pathRef=.my_folders%2FDashboard%2Broom%2Brevenue.....-------%252C%252C%252C%252C%252C%252C%252C%252C%252C%252C%252C%252C%252C&action=view&mode=dashboard&subView=model00000195bc2d0c59_00000002" style="height: 100vh; width: 100vw;" frameborder="0"></iframe>
+</div>
+
+<!-- More Details Modal -->
+<div class="modal" id="detailsModal">
+  <div class="modal-content">
+    <h3>Chart Visualizations Details</h3>
+    <ul>
+      <li><strong>1. Profit Margin Analysis:</strong> A chart showing the hotel's profitability over time.</li>
+      <li><strong>2. Dynamic Date Filters:</strong> A tool allowing users to adjust the date range for data analysis.</li>
+      <li><strong>3. Revenue Heatmap:</strong> Visualizes hotel revenue across different regions and times.</li>
+      <li><strong>4. Occupancy Rate:</strong> Shows occupancy trends, identifying peak and off-peak seasons.</li>
+      <li><strong>5. Room Type Comparison:</strong> A comparison of different room types' revenue performance.</li>
+      <li><strong>6. Average Daily Rate:</strong> Tracks the average rate of rooms sold.</li>
+      <li><strong>7. Booking Source Analysis:</strong> Shows where the bookings are coming from.</li>
+      <li><strong>8. Customer Feedback Trends:</strong> A bar chart showing customer satisfaction over time.</li>
+      <li><strong>9. Seasonal Revenue Trends:</strong> Visualizes revenue patterns by season to optimize pricing.</li>
+      <li><strong>10. Forecasting Dashboard:</strong> Predicts future revenue trends based on historical data.</li>
+    </ul>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- Chatbot Widget -->
+<script>
+  window.watsonAssistantChatOptions = {
+    integrationID: "your-integration-id", // Replace with actual
+    region: "us-south", // Replace as per your config
+    serviceInstanceID: "your-service-id", // Replace with actual
+    onLoad: function(instance) { instance.render(); }
+  };
+  setTimeout(function() {
+    const t = document.createElement('script');
+    t.src = "https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js";
+    document.head.appendChild(t);
+  }, 2000);
+</script>
+
+<!-- JS for page switching, rating messages, and More Details Modal -->
+<script>
+  function showHomePage() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const email = document.getElementById("email").value.trim();
+    if (!username || !password || !email) {
+      alert("Please enter username, password, and email.");
+      return;
+    }
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('homePage').style.display = 'block';
+    document.getElementById('greetingTitle').innerText = `Welcome, ${username}!`;
+  }
+
+  function showDashboard() {
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('dashboardPage').style.display = 'block';
+  }
+
+  function backToHome() {
+    document.getElementById('dashboardPage').style.display = 'none';
+    document.getElementById('homePage').style.display = 'block';
+  }
+
+  function showMessage(rating) {
+    const messageMap = {
+      1: "We're sorry to hear that. We'll work on improving!",
+      2: "Thanks! We appreciate your honest feedback.",
+      3: "Nice! Glad you liked some features.",
+      4: "Great! Thanks for your support!",
+      5: "Thanks for a great job! We’re thrilled you loved it!"
+    };
+    document.getElementById('ratingMessage').innerText = messageMap[rating];
+  }
+
+  function toggleVisibility(type) {
+    const input = document.getElementById(type);
+    const typeToToggle = type === 'password' ? 'password' : 'text';
+    input.type = input.type === typeToToggle ? 'password' : typeToToggle;
+  }
+
+  function showMoreDetails() {
+    document.getElementById('detailsModal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('detailsModal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
